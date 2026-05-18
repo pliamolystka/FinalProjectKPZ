@@ -9,15 +9,23 @@ export class PhoneQrStrategy extends BaseQrStrategy {
     return { payload: `tel:${phone}`, displayValue: phone };
   }
 
-  validate(formData) {
-    const phone = formData.phone;
-    if (!phone) return "Введи номер телефону.";
-    if (!PHONE_DIGITS_REGEX.test(phone)) return "Номер телефону має містити хоча б одну цифру.";
-    if (!PHONE_VALID_CHARS_REGEX.test(phone)) {
-      return "Номер телефону може містити лише цифри, +, пробіли, дефіси та дужки.";
-    }
-    return null;
+validate(formData) {
+  const phone = this.normalizeString(formData.phone);
+
+  if (this.isEmpty(phone)) {
+    return "Введи номер телефону.";
   }
+
+  if (!PHONE_DIGITS_REGEX.test(phone)) {
+    return "Номер телефону має містити хоча б одну цифру.";
+  }
+
+  if (!PHONE_VALID_CHARS_REGEX.test(phone)) {
+    return "Номер телефону може містити лише цифри, +, пробіли, дефіси та дужки.";
+  }
+
+  return null;
+}
 
   sanitize(formData) {
     const phone = formData.phone;
