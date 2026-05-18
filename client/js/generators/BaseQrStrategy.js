@@ -22,4 +22,16 @@ export class BaseQrStrategy {
   getOpenLink(payload) {
     return null;
   }
+
+  normalizeString(value) {
+    return String(value || "").trim();
+  }
+
+  isEmpty(value) {
+    return !this.normalizeString(value);
+  }
+
+  safePayload(value) {
+    return String(value || "");
+  }
 }
